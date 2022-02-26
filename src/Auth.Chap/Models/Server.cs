@@ -9,6 +9,35 @@ namespace Auth.Chap.Models
     /// <summary>Chap <see cref="Server"/>.</summary>
     public class Server
     {
+        #region Two-way authentication
+
+        /// <summary>This <see cref="Server"/>'s credentials.</summary>
+        private Credentials _credentials;
+
+        /// <summary>Client's nonce.</summary>
+        public string Nonce { private get; set; }
+
+        /// <summary>Digest used for authentication.</summary>
+        public byte[] Digest
+        {
+            get
+            {
+                // Check if there is nonce accepted from the server.
+                if (Nonce == null)
+                    throw new InvalidOperationException($"No nonce provided.");
+
+                using var sha1 = SHA1.Create();
+
+                // Compute hash.
+                var hash = sha1.ComputeHash(Encoding.ASCII.GetBytes(
+                    Nonce + _credentials.Password));
+
+                return hash;
+            }
+        }
+
+        #endregion
+
         /// <summary>User this server currently authenticates.</summary>
         private Credentials _currentUser;
 
@@ -22,6 +51,18 @@ namespace Auth.Chap.Models
         /// <param name="knownUsers">List of known users' credentials.</param>
         public Server(List<Credentials> knownUsers) =>
             _knownUsers = knownUsers;
+
+        #region Two-way authentication
+
+        /// <summary>
+        /// Initialize a new <see cref="Server"/> for two-way authentication.
+        /// </summary>
+        /// <param name="credentials"><see cref="Server"/>'s credentials</param>
+        /// <param name="knownUsers">List of known users.</param>
+        public Server(Credentials credentials, List<Credentials> knownUsers)
+            : this(knownUsers) => _credentials = credentials;
+
+        #endregion
 
         /// <summary>Authenticate user provided it's data.</summary>
         /// <param name="data">User's data.</param>

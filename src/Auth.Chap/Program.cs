@@ -10,51 +10,137 @@ namespace Auth.Chap
     {
         static void Main(string[] args)
         {
-            #region Preparations
+            // Use this parameter to switch between one-way and two-way
+            // authentication.
+            var twoWayAuthentication = true;
 
-            // Create a channel able to store one message at a time.
-            var channel = new Channel();
-
-            // Create valid and invalid data.
-            var validData = new Credentials
+            if (!twoWayAuthentication)
             {
-                Username = "vladlen",
-                Password = "vladlensPassword"
-            };
+                #region Preparations
 
-            var invalidData = new Credentials
-            {
-                Username = "notVladlen",
-                Password = "notVladlensPassword"
-            };
+                // Create a channel able to store one message at a time.
+                var channel = new Channel();
 
-            // Initialize server with valid data as known data.
-            var server = new Server(new List<Credentials> { validData });
+                // Create valid and invalid data.
+                var validData = new Credentials
+                {
+                    Username = "vladlen",
+                    Password = "vladlensPassword"
+                };
 
-            // Initialize client. We may change it's parameters for
-            // demonstration.
-            var client = new Client(validData);
+                var invalidData = new Credentials
+                {
+                    Username = "notVladlen",
+                    Password = "notVladlensPassword"
+                };
 
-            #endregion
+                // Initialize server with valid data as known data.
+                var server = new Server(new List<Credentials> { validData });
 
-            #region Protocol execution
+                // Initialize client. We may change it's parameters for
+                // demonstration.
+                var client = new Client(validData);
 
-            // Server sends the request. No need to serialize a string.
-            channel.Send(server.SendAuthenticationRequest(validData));
+                #endregion
 
-            // Client retrieves.
-            client.Nonce = channel.Retrieve();
+                #region Protocol execution
 
-            // Client send's it's digest.
-            channel.Send(JsonSerializer.Serialize(client.Digest));
+                // Server sends the request. No need to serialize a string.
+                channel.Send(server.SendAuthenticationRequest(validData));
 
-            // Server authenticates.
-            var result = server.Authenticate(
+                // Client retrieves.
+                client.Nonce = channel.Retrieve();
+
+                // Client sends it's digest.
+                channel.Send(JsonSerializer.Serialize(client.Digest));
+
+                // Server authenticates.
+                var result = server.Authenticate(
                 JsonSerializer.Deserialize<byte[]>(channel.Retrieve()));
 
-            Console.WriteLine($"Authentication result: {result}.");
+                // Write authentication result to the console.
+                Console.WriteLine($"Authentication result: {result}.");
 
-            #endregion
+                #endregion
+            }
+            else
+            {
+                #region Preparations
+
+                // Create a channel able to store one message at a time.
+                var channel = new Channel();
+
+                // Create valid and invalid data.
+                var clientValid = new Credentials
+                {
+                    Username = "client",
+                    Password = "clientsPassword"
+                };
+
+                var clientInvalid = new Credentials
+                {
+                    Username = "client",
+                    Password = "notClientsPassword"
+                };
+
+                var serverValid = new Credentials
+                {
+                    Username = "server",
+                    Password = "serversPassword"
+                };
+
+                var serverInvalid = new Credentials
+                {
+                    Username = "server",
+                    Password = "notServersPassword"
+                };
+
+                // Initialize server with valid data as known data.
+                var server = new Server(
+                    serverValid,
+                    new List<Credentials> { clientValid });
+
+                // Initialize client. We may change it's parameters for
+                // demonstration.
+                var client = new Client(
+                    clientValid,
+                    new List<Credentials> { serverValid });
+
+                #endregion
+
+                #region Protocol execution
+
+                // Server sends the request.No need to serialize a string.
+                channel.Send(server.SendAuthenticationRequest(clientValid));
+
+                // Client retrieves.
+                client.Nonce = channel.Retrieve();
+
+                // Client sends it's digest and nonce.
+                channel.Send(JsonSerializer.Serialize(Tuple.Create(
+                    client.Digest,
+                    client.SendAuthenticationRequest(serverValid))));
+
+                // Server authenticates client and accepts it's nonce.
+                var data = JsonSerializer
+                    .Deserialize<Tuple<byte[], string>>(channel.Retrieve());
+                
+                var resultClient = server.Authenticate(data.Item1);
+                server.Nonce = data.Item2;
+
+                channel.Send(JsonSerializer.Serialize(server.Digest));
+
+                var resultServer = client.Authenticate(
+                    JsonSerializer.Deserialize<byte[]>(channel.Retrieve()));
+
+                Console.WriteLine(
+                    $"Client authentication result: {resultClient}");
+                Console.WriteLine(
+                    $"Server authentication result: {resultServer}");
+
+                #endregion
+            }
+
         }
     }
 }
