@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace Auth.Pap.Models
+namespace Auth.Chap.Models
 {
     /// <summary>Pap data model.</summary>
-    public class Data : IEquatable<Data>
+    public class Credentials : IEquatable<Credentials>
     {
         /// <summary>Username.</summary>
         public string Username { get; set; }
@@ -12,24 +12,24 @@ namespace Auth.Pap.Models
         public string Password { get; set; }
 
         /// <summary>Initialize empty data.</summary>
-        public Data()
+        public Credentials()
         {
         }
 
         /// <summary>Initialize new data, cloning the given one.</summary>
         /// <param name="data">Data to copy values from.</param>
-        public Data(Data data)
+        public Credentials(Credentials data)
         {
             Username = data.Username;
             Password = data.Password;
         }
 
         /// <summary>
-        /// Checks if this <see cref="Data"/> is the same as the given one.
+        /// Checks if this <see cref="Credentials"/> is the same as the given one.
         /// </summary>
-        /// <param name="other"><see cref="Data"/> to compare against.</param>
+        /// <param name="other"><see cref="Credentials"/> to compare against.</param>
         /// <returns>True if two instances contain the same fields.</returns>
-        public bool Equals(Data other) =>
+        public bool Equals(Credentials other) =>
             Username == other.Username && Password == other.Password;
     }
 }

@@ -11,46 +11,46 @@ namespace Auth.Pap
     {
         static void Main(string[] args)
         {
-            // ------------
-            // Preparation.
-            // ------------
+            #region Preparations
 
             // Create a channel able to store one message at a time.
             var channel = new Channel();
 
             // Create valid and invalid data.
-            var validData = new Data
+            var validData = new Credentials
             {
                 Username = "vladlen",
                 Password = "vladlensPassword"
             };
 
-            var invalidData = new Data
+            var invalidData = new Credentials
             {
                 Username = "notVladlen",
                 Password = "notVladlensPassword"
             };
 
             // Initialize server with valid data as known data.
-            var server = new Server(new List<Data> { validData });
+            var server = new Server(new List<Credentials> { validData });
 
             // Initialize client. We may change it's parameters for
             // demonstration.
             var client = new Client(validData);
 
-            // -------------------------------
-            // Protocol execution starts here.
-            // -------------------------------
+            #endregion
+
+            #region Protocol execution
 
             // Serialize data and send to channel.
             channel.Send(JsonSerializer.Serialize(client.Credentials));
 
             // Retrieve data from the channel and give it to the server.
             var result = server.Authenticate(
-                JsonSerializer.Deserialize<Data>(channel.Retrieve()));
+                JsonSerializer.Deserialize<Credentials>(channel.Retrieve()));
 
             // Print the result.
             Console.WriteLine($"Authentication result: {result}.");
+
+            #endregion
         }
     }
 }

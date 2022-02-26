@@ -9,15 +9,15 @@ namespace Auth.Pap.Tests
         [Fact]
         public void Authenticate_ValidCredentials_ReturnsTrue()
         {
-            var data = new Data
+            var data = new Credentials
             {
                 Username = "username",
                 Password = "password"
             };
 
-            var anotherData = new Data(data);
+            var anotherData = new Credentials(data);
 
-            var server = new Server(new List<Data> { data });
+            var server = new Server(new List<Credentials> { data });
 
             var result = server.Authenticate(anotherData);
 
@@ -27,19 +27,19 @@ namespace Auth.Pap.Tests
         [Fact]
         public void Authenticate_InvalidCredentials_ReturnsFalse()
         {
-            var data = new Data
+            var data = new Credentials
             {
                 Username = "username",
                 Password = "password"
             };
 
-            var anotherData = new Data
+            var anotherData = new Credentials
             {
                 Username = "anotherUsername",
                 Password = "anotherPassword"
             };
 
-            var server = new Server(new List<Data> { anotherData });
+            var server = new Server(new List<Credentials> { anotherData });
 
             var result = server.Authenticate(data);
 

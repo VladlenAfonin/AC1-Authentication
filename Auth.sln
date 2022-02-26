@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.Common.Tests", "tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.Pap.Tests", "tests\Auth.Pap.Tests\Auth.Pap.Tests.csproj", "{2F11D84A-BF75-4757-A42A-B84998FB882F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.Common.Extensions.Tests", "tests\Auth.Common.Extensions.Tests\Auth.Common.Extensions.Tests.csproj", "{FC88E552-E310-43F7-9EE7-827CFE00C581}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.Chap.Tests", "tests\Auth.Chap.Tests\Auth.Chap.Tests.csproj", "{F3804556-F7A9-460C-8C06-F5D22848DCDD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +47,14 @@ Global
 		{2F11D84A-BF75-4757-A42A-B84998FB882F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F11D84A-BF75-4757-A42A-B84998FB882F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F11D84A-BF75-4757-A42A-B84998FB882F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC88E552-E310-43F7-9EE7-827CFE00C581}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC88E552-E310-43F7-9EE7-827CFE00C581}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC88E552-E310-43F7-9EE7-827CFE00C581}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC88E552-E310-43F7-9EE7-827CFE00C581}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3804556-F7A9-460C-8C06-F5D22848DCDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3804556-F7A9-460C-8C06-F5D22848DCDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3804556-F7A9-460C-8C06-F5D22848DCDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3804556-F7A9-460C-8C06-F5D22848DCDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,5 +68,7 @@ Global
 		{8161AAAA-4614-44D3-9B46-5910A39CDEF3} = {BED0A25A-407B-4ADB-9FEA-F77EC47DC5FA}
 		{8034AE59-5AA5-470F-A7EA-56E8E9BBAA9B} = {0FDA7C40-3102-4550-B790-A9888F518781}
 		{2F11D84A-BF75-4757-A42A-B84998FB882F} = {0FDA7C40-3102-4550-B790-A9888F518781}
+		{FC88E552-E310-43F7-9EE7-827CFE00C581} = {0FDA7C40-3102-4550-B790-A9888F518781}
+		{F3804556-F7A9-460C-8C06-F5D22848DCDD} = {0FDA7C40-3102-4550-B790-A9888F518781}
 	EndGlobalSection
 EndGlobal
