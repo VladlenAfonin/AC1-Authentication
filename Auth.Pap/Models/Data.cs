@@ -24,6 +24,11 @@ namespace Auth.Pap.Models
             Password = data.Password;
         }
 
+        /// <summary>
+        /// Checks if this <see cref="Data"/> is the same as the given one.
+        /// </summary>
+        /// <param name="other"><see cref="Data"/> to compare against.</param>
+        /// <returns>True if two instances contain the same fields.</returns>
         public bool Equals(Data other) =>
             Username == other.Username && Password == other.Password;
     }
