@@ -20,6 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Auth.Pap\Auth.Pap.csproj" />
+    <ProjectReference Include="..\..\src\Auth.Pap\Auth.Pap.csproj" />
   </ItemGroup>
 </Project>
